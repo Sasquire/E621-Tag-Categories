@@ -1,0 +1,315 @@
+[
+  {
+    "title": "_biblical_sex",
+    "tags": [
+      "male",
+      "female",
+      "ambiguous"
+    ]
+  },
+  {
+    "title": "_hermaphrodite",
+    "tags": [
+      "male_herm",
+      "female_herm",
+      "ambiguous_herm",
+      "herm"
+    ]
+  },
+  {
+    "title": "_intersex",
+    "tags": [
+      "gynomorph",
+      "andromorph",
+      "intersex"
+    ]
+  },
+  {
+    "title": "sexes",
+    "color": "ff0000",
+    "tags": [
+      "male",
+      "female",
+      "ambiguous_gender",
+      "gynomorph",
+      "andromorph",
+      "intersex",
+      "male_herm",
+      "female_herm",
+      "ambiguous_herm",
+      "herm"
+    ]
+  },
+  {
+    "title": "sex_pairings",
+    "tags": [
+      "male/male",
+      "male/female",
+      "male/ambiguous",
+      "male/male_herm",
+      "male/female_herm",
+      "male/ambiguous_herm",
+      "male/herm",
+      "male/gynomorph",
+      "male/andromorph",
+      "male/intersex",
+      "female/male",
+      "female/female",
+      "female/ambiguous",
+      "female/male_herm",
+      "female/female_herm",
+      "female/ambiguous_herm",
+      "female/herm",
+      "female/gynomorph",
+      "female/andromorph",
+      "female/intersex",
+      "ambiguous/male",
+      "ambiguous/female",
+      "ambiguous/ambiguous",
+      "ambiguous/male_herm",
+      "ambiguous/female_herm",
+      "ambiguous/ambiguous_herm",
+      "ambiguous/herm",
+      "ambiguous/gynomorph",
+      "ambiguous/andromorph",
+      "ambiguous/intersex",
+      "male_herm/male",
+      "male_herm/female",
+      "male_herm/ambiguous",
+      "male_herm/male_herm",
+      "male_herm/female_herm",
+      "male_herm/ambiguous_herm",
+      "male_herm/herm",
+      "male_herm/gynomorph",
+      "male_herm/andromorph",
+      "male_herm/intersex",
+      "female_herm/male",
+      "female_herm/female",
+      "female_herm/ambiguous",
+      "female_herm/male_herm",
+      "female_herm/female_herm",
+      "female_herm/ambiguous_herm",
+      "female_herm/herm",
+      "female_herm/gynomorph",
+      "female_herm/andromorph",
+      "female_herm/intersex",
+      "ambiguous_herm/male",
+      "ambiguous_herm/female",
+      "ambiguous_herm/ambiguous",
+      "ambiguous_herm/male_herm",
+      "ambiguous_herm/female_herm",
+      "ambiguous_herm/ambiguous_herm",
+      "ambiguous_herm/herm",
+      "ambiguous_herm/gynomorph",
+      "ambiguous_herm/andromorph",
+      "ambiguous_herm/intersex",
+      "herm/male",
+      "herm/female",
+      "herm/ambiguous",
+      "herm/male_herm",
+      "herm/female_herm",
+      "herm/ambiguous_herm",
+      "herm/herm",
+      "herm/gynomorph",
+      "herm/andromorph",
+      "herm/intersex",
+      "gynomorph/male",
+      "gynomorph/female",
+      "gynomorph/ambiguous",
+      "gynomorph/male_herm",
+      "gynomorph/female_herm",
+      "gynomorph/ambiguous_herm",
+      "gynomorph/herm",
+      "gynomorph/gynomorph",
+      "gynomorph/andromorph",
+      "gynomorph/intersex",
+      "andromorph/male",
+      "andromorph/female",
+      "andromorph/ambiguous",
+      "andromorph/male_herm",
+      "andromorph/female_herm",
+      "andromorph/ambiguous_herm",
+      "andromorph/herm",
+      "andromorph/gynomorph",
+      "andromorph/andromorph",
+      "andromorph/intersex",
+      "intersex/male",
+      "intersex/female",
+      "intersex/ambiguous",
+      "intersex/male_herm",
+      "intersex/female_herm",
+      "intersex/ambiguous_herm",
+      "intersex/herm",
+      "intersex/gynomorph",
+      "intersex/andromorph",
+      "intersex/intersex"
+    ]
+  },
+  {
+    "title": "colors",
+    "tags": [
+      "black",
+      "grey",
+      "white",
+      "maroon",
+      "brown",
+      "red",
+      "orange",
+      "yellow",
+      "pink",
+      "beige",
+      "teal",
+      "cyan",
+      "green",
+      "mint",
+      "navy",
+      "blue",
+      "lavender",
+      "magenta",
+      "rainbow",
+      "transparent",
+      "invalid"
+    ]
+  },
+  {
+    "title": "backgrounds",
+    "tags": [
+      "black_background",
+      "grey_background",
+      "white_background",
+      "maroon_background",
+      "brown_background",
+      "red_background",
+      "orange_background",
+      "yellow_background",
+      "pink_background",
+      "beige_background",
+      "teal_background",
+      "cyan_background",
+      "green_background",
+      "mint_background",
+      "navy_background",
+      "blue_background",
+      "lavender_background",
+      "magenta_background",
+      "rainbow_background",
+      "transparent_background",
+      "invalid_background",
+      "simple_background",
+      "amazing_background",
+      "detailed_background",
+      "photo_background",
+      "screencap_background",
+      "3d_background",
+      "blowup_background",
+      "gradient_background",
+      "pattern_background",
+      "checkered_background",
+      "dotted_background",
+      "halftone_background",
+      "striped_background",
+      "textured_background",
+      "abstract_background",
+      "spiral_background",
+      "text_background"
+    ]
+  },
+  {
+    "title": "body_types",
+    "tags": [
+      "anthro",
+      "feral"
+    ]
+  },
+  {
+    "title": "resolution_tags",
+    "tags": [
+      "thumbnail",
+      "low_res",
+      "hi_res",
+      "absurd_res",
+      "superabsurd_res"
+    ]
+  },
+  {
+    "title": "character_counts",
+    "tags": [
+      "zero_pictured",
+      "solo",
+      "duo",
+      "group"
+    ]
+  },
+  {
+    "title": "_focus_counts",
+    "tags": [
+      "zero_pictured_focus",
+      "solo_focus",
+      "duo_focus",
+      "group_focus"
+    ]
+  },
+  {
+    "title": "body_parts",
+    "tags": [
+      "breasts",
+      "penis",
+      "nipples",
+      "balls",
+      "pussy",
+      "butt",
+      "anus",
+      "hair",
+      "fur",
+      "tongue",
+      "horn",
+      "eyes",
+      "teeth"
+    ]
+  },
+  {
+    "title": "sexual_other",
+    "tags": [
+      "bodily_fluids",
+      "genital_fluids",
+      "cum"
+    ]
+  },
+  {
+    "title": "clothing",
+    "tags": [
+      "clothing",
+      "clothed",
+      "nude"
+    ]
+  },
+  {
+    "title": "metadata",
+    "tags": [
+      "digital_media_(artwork)"
+    ]
+  },
+  {
+    "title": "actions",
+    "tags": [
+      "sex",
+      "smile",
+      "blush",
+      "open_mouth",
+      "standing"
+    ]
+  },
+  {
+    "title": "penis_descriptions",
+    "tags": [
+      "erection"
+    ]
+  },
+  {
+    "title": "penetration",
+    "tags": [
+      "anal",
+      "vaginal"
+    ]
+  }
+]
