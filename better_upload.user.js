@@ -6,8 +6,8 @@
 // @updateURL    https://raw.githubusercontent.com/Sasquire/Idems-Sourcing-Suite/master/main.user.js
 // @downloadURL  https://raw.githubusercontent.com/Sasquire/Idems-Sourcing-Suite/master/main.user.js
 
-// @version      1.00001
-// @description  Implements the [[ tagging_checklist ]] into the upload form of e621
+// @version      1.00002
+// @description  Implements the [[ e621:tagging_checklist ]] into the upload form of e621
 // @author       Sasquire
 // @match        *://e621.net/post/upload
 
@@ -162,7 +162,13 @@ function move_rating(){
             'https://e621.net/help/show/ratings'
         ))
     );
-    old_row.nextSibling.nextSibling.remove(); // Remove reminder text
+    const reminder = Array.from(document.getElementsByTagName('p'))
+        .filter(e => (/.*Explicit tags include sex.*/gu).test(e.innerText))[0];
+
+    if(reminder){
+        reminder.parentNode.parentNode.remove();
+    }
+
     old_row.remove();
     Array.from(document.querySelectorAll('#area_Rating > label'))
         .filter(e => e.classList.contains('custom_label') == false)
@@ -203,7 +209,12 @@ function move_parent_id() {
 }
 
 function remove_tag_reminder(){
-    document.getElementById('post_tags').parentNode.parentNode.nextSibling.nextSibling.remove();
+    const reminder = Array.from(document.getElementsByTagName('p'))
+        .filter(e => (/.*Separate tags with.*/gu).test(e.innerText))[0];
+
+    if(reminder){
+        reminder.parentNode.parentNode.remove();
+    }
 }
 
 function cross_fill(array, middle){
