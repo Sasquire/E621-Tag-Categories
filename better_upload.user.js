@@ -1,10 +1,16 @@
 // ==UserScript==
 // @name         e621 Better upload
-// @namespace    http://tampermonkey.net/
-// @version      0.1
+
+// @namespace    https://github.com/Sasquire/
+// @supportURL   https://e621.net/user/show/170289
+// @updateURL    https://raw.githubusercontent.com/Sasquire/Idems-Sourcing-Suite/master/main.user.js
+// @downloadURL  https://raw.githubusercontent.com/Sasquire/Idems-Sourcing-Suite/master/main.user.js
+
+// @version      1.00001
 // @description  Implements the [[ tagging_checklist ]] into the upload form of e621
 // @author       Sasquire
 // @match        *://e621.net/post/upload
+
 // @grant        GM_addStyle
 // @grant        GM.addStyle
 // ==/UserScript==
