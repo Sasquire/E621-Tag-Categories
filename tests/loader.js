@@ -1,6 +1,6 @@
-const loader = require('./../source/loader.js');
-const parse = require('./../source/parser.js').parse_tokens;
-const tokenize = require('./../source/tokenizer.js').tokenize;
+const loader = require('./../source/compiler/loader.js');
+const parse = require('./../source/compiler/parser.js').parse_tokens;
+const tokenize = require('./../source/compiler/tokenizer.js').tokenize;
 const assert = require('assert');
 // https://github.com/mochajs/mocha/issues/956#issuecomment-139654285
 const describe = require('mocha').describe;

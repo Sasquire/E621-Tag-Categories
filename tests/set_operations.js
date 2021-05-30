@@ -1,4 +1,4 @@
-const set_operations = require('./../source/set_operations.js');
+const set_operations = require('./../source/compiler/set_operations.js');
 const assert = require('assert');
 const describe = require('mocha').describe;
 const it = require('mocha').it;

@@ -1,4 +1,4 @@
-const compile = require('./../source/compiler.js').compile;
+const compile = require('./../source/compiler/compiler.js').compile;
 const assert = require('assert');
 // https://github.com/mochajs/mocha/issues/956#issuecomment-139654285
 const describe = require('mocha').describe;

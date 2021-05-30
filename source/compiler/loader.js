@@ -1,4 +1,4 @@
-const set_operations = require('./../source/set_operations.js');
+const set_operations = require('./set_operations.js');
 const errors = require('./errors.js');
 
 function parse_start (global_state, file_name, tree) {

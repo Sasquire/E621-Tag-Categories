@@ -1,4 +1,4 @@
-const tokenize = require('./../source/tokenizer.js').tokenize;
+const tokenize = require('./../source/compiler/tokenizer.js').tokenize;
 const describe = require('mocha').describe;
 const it = require('mocha').it;
 const assert = require('assert');

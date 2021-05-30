@@ -59,8 +59,8 @@ function split_on_values_with_escape_character (string, splits, token_characters
 	// Match (un-escaped token characters or a word (that may contain escaped token chars))
 	const regex = new RegExp(`${not_escaped_token_char}|${word_string}`, 'g');
 
-	return string
-		.match(regex)
+	return (string
+		.match(regex) || [])
 		.map(e => e.replace(new RegExp(`\\${escape}`, 'g'), ''));
 }
 

@@ -1,4 +1,4 @@
-const parser = require('./../source/parser.js');
+const parser = require('./parser.js');
 const tokenizer = require('./tokenizer.js');
 const loader = require('./loader.js');
 const errors = require('./errors.js');
@@ -7,6 +7,9 @@ function compile_file (file_dictionary) {
 	const trees = {};
 	for (const [file_name, file_contents] of Object.entries(file_dictionary)) {
 		const tokens = tokenize(file_name, file_contents);
+		if (tokens.length === 0) {
+			continue;
+		}
 		const tree = parse(file_name, tokens);
 		trees[file_name] = {
 			tree: tree,

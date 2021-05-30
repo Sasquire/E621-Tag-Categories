@@ -1,3 +1,8 @@
+# This is the start of what I thought that the requirements
+# should look like. But then I thought that they should be
+# integrated with the actual set definitions. This is here
+# until I actually add that.
+
 male_genitals; <- male; gynomorph; herm;
 penis; balls; <- male_genitals;
 penis_type; <- penis;
