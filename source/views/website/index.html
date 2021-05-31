@@ -4,6 +4,8 @@
 			/* Main */
 			#main_header {
 				display:flex;
+				flex-direction: column;
+				flex-wrap: wrap;
 				margin: 0px calc(0.4rem);
 
 				border: 2px solid black;
@@ -11,12 +13,20 @@
 				
 				height: 5rem;
 				width: calc(100vw - 0.4rem - 24px);
+				font-size: 2rem;
 			}
 			#main_body {
 				display: flex;
 				height: calc(100vh - 32px - 5rem);
 				padding: 0.2rem;
 			}
+			#main_header > * { width: fit-content; }
+
+			#main_title {
+				font-size: 4rem;
+				margin-left: 1rem;
+			}
+			.has_error { background-color: red; }
 
 			/* Views */
 			.view {
@@ -47,6 +57,7 @@
 			}
 			.view_body > * {
 				width: fit-content;
+				height: 0px; /* Fixes a weird bug where view_headers get compressed */
 			}
 			.view_selector {
 				margin-left: 0.4rem;
@@ -87,8 +98,26 @@
 			}
 			.tag_matching_row > *:first-child { flex-grow: 1; }
 			.tag_matching_row > *:nth-child(2) {
-				width: 10rem;
+				width: 5rem;
 				text-align: right;
+			}
+
+			/* Text Editor */
+			.text_editor {
+				width: 100%;
+				height: 100%;
+				resize: none;
+				background-color: #ffd;
+				white-space: nowrap;
+			}
+			.text_editor_unsaved {
+				background-color: #fdd;
+			}
+
+			/* Import/Export */
+			.import_export {
+				display: flex;
+				flex-direction: column;
 			}
 
 			/* Utilities */
@@ -100,17 +129,54 @@
 	</head>
 	<script type="text/javascript" src="./../shared/compiler.js"></script>  
 	<body>
-		<div id="main_header"></div>
+		<div id="main_header">
+			<span id="main_title">e621 Tag Categories</span>
+			<span><a href="">Github</a></span>
+			<span><a href="">Submit</a></span>
+			<span><a href="">Documentation</a></span>
+			<span><a href="">Cheat Sheet</a></span>
+			<span><a href="">About</a></span>
+			<span id="error_span">Error</span>
+		</div>
 		<div id="main_body"></div>
 	</body>
+	<script>
+		// Some utilities
+		function clear_children (node) {
+			while (node.firstChild) {
+				node.removeChild(node.firstChild);
+			}
+		}
+
+		function get_selector_value (selector) {
+			const index = selector.selectedIndex;
+			if (index === -1) {
+				return undefined;
+			} else {
+				return selector[index].value;
+			}
+		}
+
+		function get_selector_index (selector, value) {
+			if (value === undefined) {
+				return 0;
+			} else {
+				return [...selector.children].findIndex(e => e.value === value) || 0;
+			}
+		}
+	</script>
 	<script>
 		class Files {
 			static global_files = {};
 			static name_change_watchers = [];
+			static specific_file_watchers = {};
+			static any_file_watchers = [];
 
 			static async load_files () {
-				Files.global_files = await fetch('/source/views/shared/sets_source.json')
+				const response = await fetch('/source/views/shared/sets_source.json')
 					.then(e => e.json());
+
+				Files.set_file_object(response);
 			}
 			
 			static delete (file_name, run_callbacks = true) {
@@ -136,29 +202,65 @@
 				Files.global_files[file_name] = '';
 				Files.call_all_name_watchers();
 			}
-			
-			static get_file_content (file_name) {
-				return Files.global_files[file_name];
-			}
 
 			static update_content (file_name, content) {
 				Files.global_files[file_name] = content;
+				Files.file_content_changed(file_name);
+			}
+
+			static set_file_object (new_object) {
+				Files.global_files = new_object;
+				Files.call_all_name_watchers();
+				Object.keys(new_object).forEach(name => Files.file_content_changed(name));
+			}
+
+			// Getters
+			static get_file_content (file_name) {
+				return Files.global_files[file_name];
 			}
 
 			static get_file_names () {
 				return Object.keys(Files.global_files);
 			}
 
+			static get_file_object () {
+				return Files.global_files;
+			}
+
+			// Listeners below
+			static watch_file_names (callback) {
+				Files.name_change_watchers.push(callback);
+			}
+			
 			static call_all_name_watchers () {
 				Files.name_change_watchers.forEach(e => e());
 			}
 
-			static watch_file_names (callback) {
-				Files.name_change_watchers.push(callback);
+			static watch_specific_file (file_name, callback) {
+				if (Files.specific_file_watchers[file_name] === undefined) {
+					Files.specific_file_watchers[file_name] = [];
+				}
+
+				Files.specific_file_watchers[file_name].push(callback);
 			}
 
-			static get_file_object () {
-				return Files.global_files;
+			static watch_for_any_file_change (callback) {
+				Files.any_file_watchers.push(callback);
+			}
+
+			static file_content_changed (file_name) {
+				call_everything_watching_file(file_name);
+				call_everything_watching_any_file_change();
+
+				function call_everything_watching_file (file_name) {
+					if (Files.specific_file_watchers[file_name] !== undefined) {
+						Files.specific_file_watchers[file_name].forEach(e => e());
+					}
+				}
+
+				function call_everything_watching_any_file_change () {
+					Files.any_file_watchers.forEach(e => e());
+				}
 			}
 		}
 	</script>
@@ -186,16 +288,29 @@
 			static last_compiled = new Date(0);
 			static compiled_tag_watchers = [];
 
-			static async compile_files () {
+			static compile_files () {
+				document.getElementById('error_span').classList.remove('has_error');
+				document.getElementById('error_span').title = '';
 				const files = Files.get_file_object();
-				Compiler.compiled_results = window.compile_file(files);
-				Compiler.last_compiled = new Date();
-				
-				Compiler.call_all_compiled_tag_watchers();
+				try {
+					Compiler.compiled_results = window.compile_file(files);
+					Compiler.last_compiled = new Date();
+					Compiler.call_all_compiled_tag_watchers();
+				} catch (e) {
+					document.getElementById('error_span').title = `When working in file \'${e.file_accessed}\', ${e.actual.message}`;
+					document.getElementById('error_span').classList.add('has_error');
+					// TODO have more detailed errors accessible somehwere
+					throw e.actual
+				}
 			}
 
 			static get_compiled_results () {
-				return Compiler.compiled_results;
+				const seconds_since_last_update = new Date().getTime() - Compiler.last_compiled.getTime();
+				const max_ms_allowed_stale = 10 * 1000;
+				if (seconds_since_last_update > max_ms_allowed_stale) {
+					Compiler.compile_files();
+				}
+				return Compiler.compiled_results;	
 			}
 
 			static is_tag_present (tag) {
@@ -213,30 +328,6 @@
 		}
 	</script>
 	<script>
-		Files.load_files()
-			.then(() => SiteTags.load_tags())
-			.then(() => Compiler.compile_files())
-			.then(() => {
-				document.getElementById('main_body').appendChild(make_view());
-				Files.watch_file_names(() => {
-					update_all_views_named('file_manager', '$ File Manager');
-				});
-				Compiler.watch_compiled_tag(() => {
-					update_all_views_named('tag_sets', '$ Global Tag Sets');
-					update_all_views_named('tag_matching', '$ Tag Matching');
-				});
-
-				function update_all_views_named (classname, node_name) {
-					[...document.getElementsByClassName(classname)]
-						.forEach(e => {
-							clear_children(e);
-							e.appendChild(get_special_views()
-								.find(e => e.name === node_name)
-								.make_node());
-						});
-				}
-			});
-
 		function make_view () {
 			const container = document.createElement('div');
 			container.classList.add('view');
@@ -316,9 +407,46 @@
 						const special = get_special_views().find(e => e.name === value);
 						if (special !== undefined) {
 							body.appendChild(special.make_node());
+						} else if (Files.get_file_names().some(e => e.localeCompare(value))) {
+							body.appendChild(make_text_editor(value));
 						} else {
-							// TODO try all the files
+							throw new Error('Somehow there was an option for a file that doesn\'t exist');
 						}
+					}
+
+					function make_text_editor (file_name) {
+						const editor = document.createElement('textarea');
+						editor.value = Files.get_file_content(file_name);
+						editor.classList.add('text_editor');
+						
+						const ms_wait = 1000;
+						let last_changed = new Date().getTime();
+						editor.addEventListener('keydown', e => {
+							editor.classList.add('text_editor_unsaved');
+
+							const now = new Date().getTime();
+							last_changed = now;
+							setTimeout(() => {
+								// If they are different, then there is another timeout
+								// waiting. Being the same means typing has stopped.
+								if (now === last_changed) {
+									Files.update_content(file_name, editor.value);
+									editor.classList.remove('text_editor_unsaved');
+								}
+							}, ms_wait);
+
+							// https://stackoverflow.com/questions/6637341/use-tab-to-indent-in-textarea
+							if (e.key == 'Tab') {
+								e.preventDefault();
+								document.execCommand('insertText', false, '\t');
+							}
+						});
+
+						Files.watch_specific_file(file_name, () => {
+							editor.value = Files.get_file_content(file_name);
+						})
+
+						return editor;
 					}
 
 					function fill_selector_with_options (selector) {
@@ -348,29 +476,6 @@
 				const container = document.createElement('div');
 				container.classList.add('view_body');
 				return container;
-			}
-		}
-
-		function clear_children (node) {
-			while (node.firstChild) {
-				node.removeChild(node.firstChild);
-			}
-		}
-
-		function get_selector_value (selector) {
-			const index = selector.selectedIndex;
-			if (index === -1) {
-				return undefined;
-			} else {
-				return selector[index].value;
-			}
-		}
-
-		function get_selector_index (selector, value) {
-			if (value === undefined) {
-				return 0;
-			} else {
-				return [...selector.children].findIndex(e => e.value === value) || 0;
 			}
 		}
 
@@ -518,7 +623,127 @@
 						return container;
 					}
 				}
+			}, {
+				name: '$ Import/Export',
+				make_node: () => {
+					const container = document.createElement('div');
+					container.classList.add('import_export');
+					container.appendChild(make_download_structure_button());
+					container.appendChild(make_download_output_button());
+					container.appendChild(make_upload_structure_field());
+					return container;
+
+					function make_download_structure_button () {
+						const button = document.createElement('button');
+						button.textContent = 'Download\xa0the\xa0current\xa0file\xa0structure';
+						button.addEventListener('click', e => {
+							download_json(Files.get_file_object(), `e621_tag_categories_source_${new Date().toISOString()}.json`)
+						});
+						return button;
+					}
+
+					function make_download_output_button () {
+						const button = document.createElement('button');
+						button.textContent = 'Download\xa0the\xa0current\xa0compiled\xa0output';
+						button.addEventListener('click', e => {
+							download_json(Compiler.get_compiled_results(), `e621_tag_categories_compiled_${new Date().toISOString()}.json`)
+						});
+						return button;
+					}
+
+					// TODO more feedback should be given to the user that
+					// they have successfully imported the file
+					function make_upload_structure_field () {
+						const container = document.createElement('div');
+						const message = document.createElement('span');
+						message.textContent = 'Upload\xa0file\xa0structure\xa0from\xa0file';
+						container.appendChild(message);
+						container.appendChild(document.createElement('br'));
+						container.appendChild(create_upload_form())
+						return container;
+
+						// https://github.com/Sasquire/Idems-Sourcing-Suite/blob/master/source/utils/nodes.js
+						function create_upload_form () {
+							const file_box = document.createElement('input');
+							file_box.type = 'file';
+							file_box.addEventListener('change', () => {
+								read_blob(file_box.files[0])
+									.then(e => Files.set_file_object(e))
+									.then(e => file_box.value = '');
+							});
+						
+							return file_box;
+
+							// https://stackoverflow.com/questions/19706046/how-to-read-an-external-local-json-file-in-javascript
+							async function read_blob (blob) {
+								return new Promise((resolve, reject) => {
+									const reader = new FileReader();
+									reader.onload = (e) => {
+    									const content = e.target.result;
+    									resolve(JSON.parse(content));
+  									};
+  									reader.readAsText(blob);
+								});
+							}
+						}
+					}
+
+					function download_json (json_object, filename) {
+						// https://stackoverflow.com/questions/19721439/download-json-object-as-a-file-from-browser
+						const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(json_object, Set_toJSON, '\t'));
+						const anchor = document.createElement('a');
+						anchor.setAttribute('href', dataStr);
+						anchor.setAttribute('download', filename);
+						anchor.click();
+
+						// https://stackoverflow.com/questions/31190885/json-stringify-a-set
+						function Set_toJSON(key, value) {
+						  	if (typeof value === 'object' && value instanceof Set) {
+							  	return [...value];
+							}
+							return value;
+						}
+					}
+				}
 			}];
+		}
+	</script>
+	<script>
+		init(); 
+	
+		async function init () {
+			await Files.load_files();
+			await SiteTags.load_tags();
+			await Compiler.compile_files();
+			document.getElementById('main_body').appendChild(make_view());
+			
+			// Recompile whenever a file changes
+			Files.watch_for_any_file_change(() => Compiler.compile_files());
+			Files.watch_file_names(() => {
+				update_all_views_named('file_manager', '$ File Manager');
+			});
+			
+			Compiler.watch_compiled_tag(() => {
+				update_all_views_named('tag_sets', '$ Global Tag Sets');
+				update_all_views_named('tag_matching', '$ Tag Matching');
+			});
+			
+			// https://stackoverflow.com/questions/11000826/ctrls-preventdefault-in-chrome
+			document.addEventListener('keydown', function(e) {
+				if (e.key === 's' && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)) {
+					e.preventDefault();
+				}
+			}, false);
+
+			function update_all_views_named (classname, node_name) {
+				[...document.getElementsByClassName(classname)]
+					.forEach(e => {
+						clear_children(e);
+						e.appendChild(get_special_views()
+							.find(e => e.name === node_name)
+							.make_node());
+					});
+			}
 		}
 	</script>
 </html>

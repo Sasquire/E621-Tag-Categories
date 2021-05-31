@@ -18,3 +18,5 @@ browserify()
 	.pipe(fs.createWriteStream(path.join('.', 'source', 'views', 'shared', 'compiler.js')))
 	.on('finish', () => console.log('Bundled compiler for web version'))
 	.on('error', () => console.log('There was an error bundling compiler for web version'));
+
+// TODO have output from the compiled data end up somewhere
