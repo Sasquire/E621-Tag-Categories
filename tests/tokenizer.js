@@ -123,4 +123,11 @@ describe('Tokenizer', function () {
 		const expected = '< tags > = { person_a_(character) person_b_(character) person_c_(artist) } export < tags >'.split(' ');
 		assert.deepStrictEqual(result, expected);
 	});
+
+	it('Properly tokenize-es 10', function () {
+		const result = tokenize('shirt blouse collared_shirt polo_shirt croptop half-shirt dress_shirt fishnet_shirt mesh_shirt get_along_shirt jersey long_sleeve_shirt sleeveless_shirt t-shirt tank_top undershirt v-neck');
+		console.log(result);
+		const expected = 'shirt blouse collared_shirt polo_shirt croptop half-shirt dress_shirt fishnet_shirt mesh_shirt get_along_shirt jersey long_sleeve_shirt sleeveless_shirt t-shirt tank_top undershirt v-neck'.split(' ');
+		assert.deepStrictEqual(result, expected);
+	});
 });

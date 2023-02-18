@@ -19,7 +19,7 @@
 // A single tag includes $
 
 function tokenize (string) {
-	const token_characters = '<>(){}[]~!@$%^A&*-=+"\',./?|`';
+	const token_characters = '<>(){}[]~!@$%^A&*=+"\',./?|`';
 	const split_characters = ' ';
 
 	const clean_string = preprocess(string);
