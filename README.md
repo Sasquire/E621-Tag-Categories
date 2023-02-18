@@ -1,6 +1,6 @@
 # E621-Tag-Categories
 
-You might want to go to [the app](https://sasquire.github.io/projects/E621-Tag-Categories/) to use this tool.
+You might want to go to [the app](https://sasquire.github.io/projects/E621-Tag-Categories/app) to use this tool.
 
 This is a strange project by me in an attempt to revolutionize how implications on e621 are written. Will this go anywhere? Unlikely. It uses simple set operations as an attempt to build the complex web of implications. The ultimate goal is to have this web be able to auto-generate tagging checklists so no image will go under-tagged.
 
