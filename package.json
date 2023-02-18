@@ -10,7 +10,6 @@
 	"license": "UNLICENSE",
 	"private": true,
 	"devDependencies": {
-		"browserify": "^17.0.0",
 		"eslint": "^6.8.0",
 		"eslint-config-standard": "^14.1.0",
 		"eslint-plugin-import": "^2.20.1",
@@ -46,10 +45,7 @@
 			"camelcase": "off"
 		}
 	},
-	"eslintIgnore": [
-		"distribution/*"
-	],
 	"dependencies": {
-		"csv-parser": "^3.0.0"
+		"browserify": "^17.0.0"
 	}
 }

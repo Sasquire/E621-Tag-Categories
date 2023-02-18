@@ -47,6 +47,7 @@ const set_operations = {
 		}
 	},
 
+	// TODO rewrite this to give a consistent ordering
 	cross_product: (...sets) => {
 		if (sets.length === 0) {
 			return new Set([]);

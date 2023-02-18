@@ -1,0 +1,107 @@
+/* Main */
+#content {
+	/* 100% - (Header + Margin + 2 * Padding) */
+	height: calc(100% - (2rem + 1rem + 2 * 1rem));
+}
+
+#main_body {
+	display: flex;
+	height: 100%;
+}
+
+/* Views */
+.view {
+	flex-grow: 1;
+	margin: 0.2rem;
+
+	border: 2px solid black;
+	border-radius: 2rem;
+
+	display: flex;
+	flex-direction: column;
+}
+.view_header > * { margin-right: 0.4rem; }
+.view_header {
+	border-bottom: 2px solid black;
+	height: 3rem;
+	
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-end;
+}
+.view_body {
+	min-height: 5rem;
+	flex-grow: 1;
+	padding: 0.75rem;
+	overflow: auto;
+}
+.view_body > * {
+	width: fit-content;
+	height: 0px; /* Fixes a weird bug where view_headers get compressed */
+}
+.view_selector {
+	margin-left: 0.4rem;
+	margin-right: auto;
+}
+
+/* Containers */
+.container {
+	display: flex;
+	flex-grow: 1;
+}
+.container_vertical { flex-direction: column; }
+.container_horizontal { flex-direction: row; }
+.container_vertical > * { height: 50%; }
+.container_horizontal > * { width: 50%; }
+
+/* File Manager */
+.file_manager {
+	display: flex;
+	flex-direction: column;
+}
+
+.file_manager_option {
+	display: flex;
+	flex-direction: row;
+}
+.file_manager_option > * { margin-left: 0.4rem; }
+.file_manager_option > *:first-child { flex-grow: 1; }
+
+/* Tag Sets */
+.tag_sets_indented { padding-left: 1.5rem; }
+
+/* Tag Matching */
+.tag_matching_row {
+	display: flex;
+	flex-direction: row;
+}
+.tag_matching_row > *:first-child { flex-grow: 1; }
+.tag_matching_row > *:nth-child(2) {
+	width: 5rem;
+	text-align: right;
+}
+
+/* Text Editor */
+.text_editor {
+	width: 100%;
+	height: 100%;
+	resize: none;
+	background-color: #ffd;
+	white-space: nowrap;
+}
+.text_editor_unsaved {
+	background-color: #fdd;
+}
+
+/* Import/Export */
+.import_export {
+	display: flex;
+	flex-direction: column;
+}
+
+/* Utilities */
+.children_alternating_colors > *:nth-child(even) { background-color: var(--code-background); }
+.children_alternating_colors > *:nth-child(odd) { background-color: var(--table-highlight); }
+.used_tag { color: var(--tag-character); }
+.unused_tag { color: var(--tag-invalid); }
